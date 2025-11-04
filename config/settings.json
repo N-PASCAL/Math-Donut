@@ -1,0 +1,21 @@
+{
+    "projects": {
+        "MathDonut": {
+            "additionalDependencies": [],
+            "additionalIncludeDirectories": [],
+            "additionalLibraryDirectories": [],
+            "dependencies": [],
+            "dependents": [],
+            "guid": "2FEF3069-513A-21FE-083D-354C1267032D",
+            "lib": false,
+            "pch": false,
+            "preprocessorDefinitions": [],
+            "vcpkg": false,
+            "window": false
+        }
+    },
+    "solution_guid": "4E3F2719-31C9-05F3-50F3-6CEA67D47999",
+    "solution_name": "Donut",
+    "startup_project": "MathDonut",
+    "version": "1.17.4"
+}
