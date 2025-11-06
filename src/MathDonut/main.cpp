@@ -9,15 +9,11 @@ int main(int argc, char *argv[])
     // GetConsoleMode(hConsole, &mode);
     // SetConsoleMode(hConsole, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
     
-    std::cout << "Hello, World!\n";
-    
     std::cout << "\x1b[2J\n";
     std::cout << "\x1b[H\n";
     std::cout << "\x1b[?25l\n";
-
-    while (true)
-    {
-        
-    }
+    std::cout << "Hello, World!\n";
+    std::cout << "\x1b[?25h\n";
+    
     return 0;
 }
