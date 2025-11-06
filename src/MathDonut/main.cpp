@@ -17,7 +17,6 @@ int main(int argc, char *argv[])
     int h = atoi(argv[1]);
     int w = atoi(argv[2]);
     
-
     std::cout << h << " " << w << "\n";
     
     for (int i = 0; i < h; i++)
