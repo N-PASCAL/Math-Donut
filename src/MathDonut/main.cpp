@@ -14,9 +14,15 @@ int main(int argc, char *argv[])
     std::cout << "\x1b[?25l\n";     // cache le curseur
     std::cout << "\x1b[?25h\n";     // montre le curseur
 
-    for (int i = 0; i < 20; i++)
+    int h = atoi(argv[1]);
+    int w = atoi(argv[2]);
+    
+
+    std::cout << h << " " << w << "\n";
+    
+    for (int i = 0; i < h; i++)
     {
-        for (int j = 0; j < 100; j++)
+        for (int j = 0; j < w; j++)
             std::cout << ".";
         std::cout << "\n";
     }
