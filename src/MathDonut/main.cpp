@@ -1,6 +1,9 @@
 #include <iostream>
 #include <Windows.h>
 
+#include "Screen.h"
+#include "Settings.h"
+
 int main(int argc, char *argv[])
 {
     
@@ -14,17 +17,10 @@ int main(int argc, char *argv[])
     std::cout << "\x1b[?25l\n";     // cache le curseur
     std::cout << "\x1b[?25h\n";     // montre le curseur
 
-    int h = atoi(argv[1]);
-    int w = atoi(argv[2]);
+    Screen screen(Settings(argc, argv));
+    screen.Display(10, 20);
     
-    std::cout << h << " " << w << "\n";
     
-    for (int i = 0; i < h; i++)
-    {
-        for (int j = 0; j < w; j++)
-            std::cout << ".";
-        std::cout << "\n";
-    }
     
     return 0;
 }

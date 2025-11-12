@@ -4,4 +4,11 @@ class Settings
 {
 public:
     Settings(int argc, char *argv[]);
+    int     GetScreenWidth() const { return m_screenWidth; }
+    int     GetScreenHeight() const { return m_screenHeight; }
+
+private:
+    void    ParseArgs(int argc, char *argv[]);
+    int     m_screenWidth;
+    int     m_screenHeight;
 };
