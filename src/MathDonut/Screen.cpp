@@ -1,22 +1,17 @@
-﻿#include "Screen.h"
+﻿#include <iostream>
+#include "Screen.h"
+#include "Settings.h"
 
-#include <iostream>
+Screen::Screen(Settings const& settings) : m_width(settings.GetScreenWidth()), m_height(settings.GetScreenHeight()),
+m_pixels(m_width * m_height, '.') {}
 
-Screen::Screen(Settings settings)
+void Screen::Display() const
 {
-    m_width = settings.GetScreenWidth();
-    m_height = settings.GetScreenHeight();
-}
-
-void Screen::Display(int w , int h)
-{
-    w = m_width;
-    h = m_height;
-    for (int i = 0; i < h; ++i)
+    for(int i = 0; i < m_height; i++)
     {
-        for (int j = 0; j < w; ++j)
+        for(int j = 0; j < m_width; j++)
         {
-            std::cout << "*";
+            std::cout << m_pixels[m_width * i + j];
         }
         std::cout << '\n';
     }
