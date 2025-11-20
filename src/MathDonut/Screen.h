@@ -1,15 +1,15 @@
-﻿#pragma once
+#pragma once
 #include <vector>
 
 class Settings;
 
 class Screen
 {
-public:
+    public:
     Screen(Settings const& settings);
     void Display() const;
 
-private:
+    private:
     int m_width;
     int m_height;
     std::vector<char> m_pixels;

@@ -2,6 +2,7 @@
 #include <windows.h> // For console settings
 #include "Settings.h"
 #include "Screen.h"
+#include "Mesh.h"
 
 void InitConsole()
 {
@@ -37,6 +38,19 @@ int main(int argc, char** argv)
     Settings settings(argc, argv);
     Screen screen(settings);
     screen.Display();
+    Mesh mesh(settings);
+    mesh.GenerateRectangle(2.f, 4.f);
+    std::cout << "Rectangle 2x4:" << std::endl;
+    mesh.Debug();
+    mesh.GenerateSquare(6.f);
+    std::cout << "Square 6x6:" << std::endl;
+    mesh.Debug();
+    mesh.GenerateCircle(2.f);
+    std::cout << "Circle radius 2:" << std::endl;
+    mesh.Debug();
+    mesh.GenerateHalfCircle(1.f);
+    std::cout << "Half Circle radius 1:" << std::endl;
+    mesh.Debug();
     SetCursorVisible(true);
     return 0;
 }

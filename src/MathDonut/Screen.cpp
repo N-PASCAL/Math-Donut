@@ -1,9 +1,13 @@
-﻿#include <iostream>
+#include <iostream>
 #include "Screen.h"
 #include "Settings.h"
 
-Screen::Screen(Settings const& settings) : m_width(settings.GetScreenWidth()), m_height(settings.GetScreenHeight()),
-m_pixels(m_width * m_height, '.') {}
+Screen::Screen(Settings const& settings)
+: m_width(settings.GetScreenWidth())
+, m_height(settings.GetScreenHeight())
+, m_pixels(m_width * m_height, '.')
+{
+}
 
 void Screen::Display() const
 {
@@ -13,6 +17,6 @@ void Screen::Display() const
         {
             std::cout << m_pixels[m_width * i + j];
         }
-        std::cout << '\n';
+        std::cout << std::endl;
     }
 }
