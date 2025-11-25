@@ -5,6 +5,9 @@
 Screen::Screen(Settings const& settings)
 : m_width(settings.GetScreenWidth())
 , m_height(settings.GetScreenHeight())
+, m_background(settings.GetScreenBackground())
+, m_meshProjection(settings.GetScreenMeshProjection())
+, m_zPosition(settings.GetScreenPosition())
 , m_pixels(m_width * m_height, '.')
 {
 }

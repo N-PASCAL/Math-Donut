@@ -25,6 +25,20 @@ void Settings::_ParseArguments(int argc, char** argv)
             m_screenHeight = std::atoi(argv[i+1]);
             i++;
         }
+        else if (arg == "-b" && i + 1 < argc)
+        {
+            m_screenBackground = argv[i+1][0];
+            i++;
+        }
+        else if (arg == "-p" && i + 1 < argc)
+        {
+            m_screenMeshProjection = argv[i+1][0];
+            i++;
+        }
+        else if (arg == "-s" && i + 1 < argc)
+        {
+            m_screenPosition = std::atof(argv[i+1]);
+        }
         else if (arg == "-r" && i + 1 < argc)
         {
             m_meshResolution = std::atoi(argv[i+1]);
