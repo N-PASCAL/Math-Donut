@@ -4,6 +4,8 @@
 #include "Screen.h"
 #include "Mesh.h"
 
+#define PI 3.14159265358979323846
+
 void InitConsole()
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -49,6 +51,7 @@ int main(int argc, char** argv)
     std::cout << "Circle radius 15:" << std::endl;
     screen.Display(mesh);
     mesh.GenerateHalfCircle(15.f);
+    mesh.Rotate(PI/2.f, Axis::Z);
     std::cout << "Half Circle radius 15:" << std::endl;
     screen.Display(mesh);
     return 0;
