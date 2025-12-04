@@ -76,7 +76,7 @@ void Mesh::Debug() const
 
 void Mesh::Rotate(float angle, Axis axis)
 {
-    for(Vertex vertex : m_vertices)
+    for(Vertex &vertex : m_vertices)
     {
         vertex.Rotate(angle, axis);
     }
