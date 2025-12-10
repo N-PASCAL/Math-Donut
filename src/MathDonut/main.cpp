@@ -4,6 +4,8 @@
 #include <iostream>
 #include <windows.h> // For console settings
 #include <cmath>
+#include <csignal>
+#include <signal.h>
 #include <thread>
 
 #include "Settings.h"
@@ -41,11 +43,20 @@ void SetCursorHome()
     std::cout << "\x1b[H";
 }
 
+void SignalHandler(int signum)
+{
+    SetCursorVisible(true);
+    SetCursorHome();
+    std::exit(signum);
+}
+
 int main(int argc, char** argv)
 {
     InitConsole();
     ClearConsole();
     SetCursorVisible(false);
+
+    std::signal(SIGINT, SignalHandler);
     
     Settings settings(argc, argv);
     Screen screen(settings);
