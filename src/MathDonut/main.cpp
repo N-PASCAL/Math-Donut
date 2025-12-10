@@ -1,8 +1,11 @@
 #define _USE_MATH_DEFINES
 
+#include <chrono>
 #include <iostream>
 #include <windows.h> // For console settings
 #include <cmath>
+#include <thread>
+
 #include "Settings.h"
 #include "Screen.h"
 #include "Mesh.h"
@@ -33,16 +36,32 @@ void SetCursorVisible(bool visible)
     }
 }
 
+void SetCursorHome()
+{
+    std::cout << "\x1b[H";
+}
+
 int main(int argc, char** argv)
 {
     InitConsole();
     ClearConsole();
     SetCursorVisible(false);
+    
     Settings settings(argc, argv);
     Screen screen(settings);
     Mesh mesh(settings);
+    
     mesh.GenerateTorus(4.f, 0.9f);
-    screen.Display(mesh);
+
+    while (true)
+    {
+        SetCursorHome();
+        mesh.Rotate(settings.GetMeshRotationXPerFrame(), Axis::X);
+        screen.Display(mesh);
+        std::this_thread::sleep_for(std::chrono::microseconds(settings.GetFrameDuration()));
+        
+    }
+
     SetCursorVisible(true);
     return 0;
 }
