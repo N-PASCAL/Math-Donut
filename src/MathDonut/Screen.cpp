@@ -68,5 +68,5 @@ void Screen::_ProjectInTopLeftScreenSpace(Vertex& vertex)
 
 bool Screen::_IsVertexInScreen(int u, int v)
 {
-    return u >= 0 && u < m_width && v >= 0 && v < m_height;
+    return u > 0 && u < m_width && v > 0 && v < m_height;
 }
