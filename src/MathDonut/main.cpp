@@ -43,7 +43,7 @@ void SetCursorHome()
     std::cout << "\x1b[H";
 }
 
-void SignalHandler(int signum)
+void OnKill(int signum)
 {
     SetCursorVisible(true);
     SetCursorHome();
@@ -56,7 +56,7 @@ int main(int argc, char** argv)
     ClearConsole();
     SetCursorVisible(false);
 
-    std::signal(SIGINT, SignalHandler);
+    std::signal(SIGINT, OnKill);
     
     Settings settings(argc, argv);
     Screen screen(settings);
