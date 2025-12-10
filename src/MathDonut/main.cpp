@@ -57,6 +57,8 @@ int main(int argc, char** argv)
     {
         SetCursorHome();
         mesh.Rotate(settings.GetMeshRotationXPerFrame(), Axis::X);
+        mesh.Rotate(settings.GetMeshRotationYPerFrame(), Axis::Y);
+        mesh.Rotate(settings.GetMeshRotationZPerFrame(), Axis::Z);
         screen.Display(mesh);
         std::this_thread::sleep_for(std::chrono::microseconds(settings.GetFrameDuration()));
         
