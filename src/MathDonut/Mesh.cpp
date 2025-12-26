@@ -8,30 +8,32 @@
 void Vertex::Rotate(float angle, Axis axis)
 {
     Vertex previous = *this;
+    float cos = std::cos(angle);
+    float sin = std::sin(angle);
     switch(axis)
     {
         case Axis::X:
         {
-            y = previous.y * std::cos(angle) - previous.z * std::sin(angle);
-            z = previous.y * std::sin(angle) + previous.z * std::cos(angle);
-            ny = previous.ny * std::cos(angle) - previous.nz * std::sin(angle);
-            nz = previous.ny * std::sin(angle) + previous.nz * std::cos(angle);
+            y = previous.y * cos - previous.z * sin;
+            z = previous.y * sin + previous.z * cos;
+            ny = previous.ny * cos - previous.nz * sin;
+            nz = previous.ny * sin + previous.nz * cos;
         }
         break;
         case Axis::Y:
         {
-            x = previous.z * std::sin(angle) + previous.x * std::cos(angle);
-            z = previous.z * std::cos(angle) - previous.x * std::sin(angle);
-            nx = previous.nz * std::sin(angle) + previous.nx * std::cos(angle);
-            nz = previous.nz * std::cos(angle) - previous.nx * std::sin(angle);
+            x = previous.z * sin + previous.x * cos;
+            z = previous.z * cos - previous.x * sin;
+            nx = previous.nz * sin + previous.nx * cos;
+            nz = previous.nz * cos - previous.nx * sin;
         }
         break;
         case Axis::Z:
         {
-            x = previous.x * std::cos(angle) - previous.y * std::sin(angle);
-            y = previous.x * std::sin(angle) + previous.y * std::cos(angle);
-            nx = previous.nx * std::cos(angle) - previous.ny * std::sin(angle);
-            ny = previous.nx * std::sin(angle) + previous.ny * std::cos(angle);
+            x = previous.x * cos - previous.y * sin;
+            y = previous.x * sin + previous.y * cos;
+            nx = previous.nx * cos - previous.ny * sin;
+            ny = previous.nx * sin + previous.ny * cos;
         }
         break;
     }
@@ -46,6 +48,23 @@ Mesh::Mesh(Settings const& settings)
 : m_resolution(settings.GetMeshResolution())
 {
 }
+
+void Mesh::Rotate(float angle, Axis axis)
+{
+    for(Vertex& vertex : m_vertices)
+    {
+        vertex.Rotate(angle, axis);
+    }
+}
+
+void Mesh::Debug() const
+{
+    for(Vertex const& vertex : m_vertices)
+    {
+        vertex.Debug();
+    }
+}
+
 
 void Mesh::GenerateCircle(float radius)
 {
@@ -79,41 +98,6 @@ void Mesh::GenerateSquare(float side)
     GenerateRectangle(side, side);
 }
 
-void Mesh::GenerateTorus(float majorRadius, float minorRadius)
-{
-    m_vertices.resize(m_resolution * m_resolution);
-    for(int i = 0; i < m_resolution; i++)
-    {
-        float angleY = (2 * M_PI * i) / (m_resolution - 1);
-        for(int j = 0; j < m_resolution; j++)
-        {
-            float angleZ = (2 * M_PI * j) / (m_resolution - 1);
-            m_vertices[m_resolution * i + j].x = majorRadius + minorRadius * std::cos(angleZ);
-            m_vertices[m_resolution * i + j].y = minorRadius * std::sin(angleZ);
-            m_vertices[m_resolution * i + j].z = 0.f;
-            m_vertices[m_resolution * i + j].nx = std::cos(angleZ);
-            m_vertices[m_resolution * i + j].ny = std::sin(angleZ);
-            m_vertices[m_resolution * i + j].nz = 0.f;
-            m_vertices[m_resolution * i + j].Rotate(angleY, Axis::Y);
-        }
-    }
-}
-
-void Mesh::Rotate(float angle, Axis axis)
-{
-    for(Vertex& vertex : m_vertices)
-    {
-        vertex.Rotate(angle, axis);
-    }
-}
-
-void Mesh::Debug() const
-{
-    for(Vertex const& vertex : m_vertices)
-    {
-        vertex.Debug();
-    }
-}
 
 void Mesh::_GenerateSector(float radius, float angle)
 {

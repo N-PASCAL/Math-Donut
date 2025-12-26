@@ -10,6 +10,7 @@
 #include "Screen.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "Torus.h"
 
 void InitConsole()
 {
@@ -57,18 +58,18 @@ int main(int argc, char** argv)
     SetCursorVisible(false);
     Settings settings(argc, argv);
     Screen screen(settings);
-    Mesh mesh(settings);
+    Torus torus(settings);
     Light light(settings);
-    mesh.GenerateTorus(4.f, 2.5f);
-    mesh.Rotate(M_PI / 4.f, Axis::Y);
-    mesh.Rotate(M_PI / 4.f, Axis::X);
+    torus.GenerateTorus(4.f, 2.5f);
+    torus.Rotate(M_PI / 4.f, Axis::Y);
+    torus.Rotate(M_PI / 4.f, Axis::X);
     while(true)
     {
         SetCursorToHomePosition();
-        mesh.Rotate(settings.GetMeshRotationXPerFrame(), Axis::X);
-        mesh.Rotate(settings.GetMeshRotationYPerFrame(), Axis::Y);
-        mesh.Rotate(settings.GetMeshRotationZPerFrame(), Axis::Z);
-        screen.Display(mesh, light);
+        torus.Rotate(settings.GetMeshRotationXPerFrame(), Axis::X);
+        torus.Rotate(settings.GetMeshRotationYPerFrame(), Axis::Y);
+        torus.Rotate(settings.GetMeshRotationZPerFrame(), Axis::Z);
+        screen.Display(torus, light);
         std::this_thread::sleep_for(std::chrono::microseconds(settings.GetFrameDuration()));}
     return 0;
 }
