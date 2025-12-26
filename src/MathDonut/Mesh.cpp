@@ -3,6 +3,7 @@
 #include <cmath>
 #include "Mesh.h"
 #include "Settings.h"
+#include "Light.h"
 
 void Vertex::Rotate(float angle, Axis axis)
 {
@@ -34,6 +35,11 @@ void Vertex::Rotate(float angle, Axis axis)
         }
         break;
     }
+}
+
+float Vertex::ComputeIllumination(Light const& light) const
+{
+    return nx*light.GetNormalizedLight().nx + ny*light.GetNormalizedLight().ny + nz*light.GetNormalizedLight().nz; 
 }
 
 Mesh::Mesh(Settings const& settings)
@@ -84,10 +90,11 @@ void Mesh::GenerateTorus(float majorRadius, float minorRadius)
             float angleZ = (2 * M_PI * j) / (m_resolution - 1);
             m_vertices[m_resolution * i + j].x = majorRadius + minorRadius * std::cos(angleZ);
             m_vertices[m_resolution * i + j].y = minorRadius * std::sin(angleZ);
-            m_vertices[m_resolution * i + j].Rotate(angleY, Axis::Y);
+            m_vertices[m_resolution * i + j].z = 0.f;
             m_vertices[m_resolution * i + j].nx = std::cos(angleZ);
             m_vertices[m_resolution * i + j].ny = std::sin(angleZ);
             m_vertices[m_resolution * i + j].nz = 0.f;
+            m_vertices[m_resolution * i + j].Rotate(angleY, Axis::Y);
         }
     }
 }
@@ -120,9 +127,9 @@ void Mesh::_GenerateSector(float radius, float angle)
             m_vertices[m_resolution * i + j].x = r * std::cos(theta);
             m_vertices[m_resolution * i + j].y = r * std::sin(theta);
             m_vertices[m_resolution * i + j].z = 0.f;
-            m_vertices[m_resolution * i + j].nx = std::cos(theta);
-            m_vertices[m_resolution * i + j].ny = std::sin(theta);
-            m_vertices[m_resolution * i + j].nz = 0.f;
+            m_vertices[m_resolution * i + j].nx = 0.f;
+            m_vertices[m_resolution * i + j].ny = 0.f;
+            m_vertices[m_resolution * i + j].nz = -1.f;
         }
     }
 }

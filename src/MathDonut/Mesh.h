@@ -3,6 +3,7 @@
 #include <vector>
 
 class Settings;
+class Light;
 
 enum class Axis
 {
@@ -14,12 +15,11 @@ enum class Axis
 struct Vertex
 {
     void Rotate(float angle, Axis axis);
-    void Debug() const { std::printf("[x=%5.2f, y=%5.2f, z=%5.2f]\n", x, y, z); }
-    
+    float ComputeIllumination(Light const& light) const;
+    void Debug() const { std::printf("[x=%5.2f, y=%5.2f, z=%5.2f]\t[nx=%5.2f, ny=%5.2f, nz=%5.2f]\n", x, y, z, nx, ny, nz); }
     float x;
     float y;
     float z;
-
     float nx;
     float ny;
     float nz;

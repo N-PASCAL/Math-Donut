@@ -1,16 +1,14 @@
 #define _USE_MATH_DEFINES
 
-#include <chrono>
 #include <iostream>
 #include <windows.h> // For console settings
+#include <unistd.h> // For usleep
+#include <signal.h> // To intercept kill ctrl+c
 #include <cmath>
-#include <csignal>
-#include <signal.h>
-#include <thread>
-
 #include "Settings.h"
 #include "Screen.h"
 #include "Mesh.h"
+#include "Light.h"
 
 void InitConsole()
 {
@@ -20,10 +18,15 @@ void InitConsole()
     SetConsoleMode(hConsole, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 }
 
+void SetCursorToHomePosition()
+{
+    std::cout << "\x1b[H"; // Set cursor pos to "home" position (0,0)
+}
+
 void ClearConsole()
 {
     std::cout << "\x1b[2J"; // Remove all characters in console
-    std::cout << "\x1b[H"; // Set cursor pos to "home" position (0,0)
+    SetCursorToHomePosition();
 }
 
 void SetCursorVisible(bool visible)
@@ -38,43 +41,34 @@ void SetCursorVisible(bool visible)
     }
 }
 
-void SetCursorHome()
-{
-    std::cout << "\x1b[H";
-}
-
 void OnKill(int signum)
 {
+    ClearConsole();
     SetCursorVisible(true);
-    SetCursorHome();
-    std::exit(signum);
+    exit(signum);
 }
 
 int main(int argc, char** argv)
 {
+    signal(SIGINT, OnKill);
     InitConsole();
     ClearConsole();
     SetCursorVisible(false);
-
-    std::signal(SIGINT, OnKill);
-    
     Settings settings(argc, argv);
     Screen screen(settings);
     Mesh mesh(settings);
-    
-    mesh.GenerateTorus(4.f, 0.9f);
-
-    while (true)
+    Light light(settings);
+    mesh.GenerateTorus(4.f, 2.5f);
+    mesh.Rotate(M_PI / 4.f, Axis::Y);
+    mesh.Rotate(M_PI / 4.f, Axis::X);
+    while(true)
     {
-        SetCursorHome();
+        SetCursorToHomePosition();
         mesh.Rotate(settings.GetMeshRotationXPerFrame(), Axis::X);
         mesh.Rotate(settings.GetMeshRotationYPerFrame(), Axis::Y);
         mesh.Rotate(settings.GetMeshRotationZPerFrame(), Axis::Z);
-        screen.Display(mesh);
-        std::this_thread::sleep_for(std::chrono::microseconds(settings.GetFrameDuration()));
-        
+        screen.Display(mesh, light);
+        usleep(settings.GetFrameDuration());
     }
-
-    SetCursorVisible(true);
     return 0;
 }
