@@ -2,9 +2,10 @@
 
 #include <iostream>
 #include <windows.h> // For console settings
-#include <unistd.h> // For usleep
 #include <signal.h> // To intercept kill ctrl+c
 #include <cmath>
+#include <thread>
+
 #include "Settings.h"
 #include "Screen.h"
 #include "Mesh.h"
@@ -68,7 +69,6 @@ int main(int argc, char** argv)
         mesh.Rotate(settings.GetMeshRotationYPerFrame(), Axis::Y);
         mesh.Rotate(settings.GetMeshRotationZPerFrame(), Axis::Z);
         screen.Display(mesh, light);
-        usleep(settings.GetFrameDuration());
-    }
+        std::this_thread::sleep_for(std::chrono::microseconds(settings.GetFrameDuration()));}
     return 0;
 }
