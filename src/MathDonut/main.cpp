@@ -1,8 +1,8 @@
 #define _USE_MATH_DEFINES
 
 #include <iostream>
-#include <windows.h> // For console settings
-#include <signal.h> // To intercept kill ctrl+c
+#include <windows.h>
+#include <signal.h>
 #include <cmath>
 #include <thread>
 
@@ -10,7 +10,7 @@
 #include "Screen.h"
 #include "Mesh.h"
 #include "Light.h"
-#include "Torus.h"
+#include "Cube.h"
 
 void InitConsole()
 {
@@ -56,20 +56,27 @@ int main(int argc, char** argv)
     InitConsole();
     ClearConsole();
     SetCursorVisible(false);
+
     Settings settings(argc, argv);
     Screen screen(settings);
-    Torus torus(settings);
+    Cube cube(settings);
     Light light(settings);
-    torus.GenerateTorus(4.f, 2.5f);
-    torus.Rotate(M_PI / 4.f, Axis::Y);
-    torus.Rotate(M_PI / 4.f, Axis::X);
+    
+    cube.GenerateCube(8.0f);
+    
+    cube.Rotate(M_PI / 4.f, Axis::Y);
+    cube.Rotate(M_PI / 4.f, Axis::X);
+
     while(true)
     {
         SetCursorToHomePosition();
-        torus.Rotate(settings.GetMeshRotationXPerFrame(), Axis::X);
-        torus.Rotate(settings.GetMeshRotationYPerFrame(), Axis::Y);
-        torus.Rotate(settings.GetMeshRotationZPerFrame(), Axis::Z);
-        screen.Display(torus, light);
-        std::this_thread::sleep_for(std::chrono::microseconds(settings.GetFrameDuration()));}
+        cube.Rotate(settings.GetMeshRotationXPerFrame(), Axis::X);
+        cube.Rotate(settings.GetMeshRotationYPerFrame(), Axis::Y);
+        cube.Rotate(settings.GetMeshRotationZPerFrame(), Axis::Z);
+        
+        screen.Display(cube, light);
+        
+        std::this_thread::sleep_for(std::chrono::microseconds(settings.GetFrameDuration()));
+    }
     return 0;
 }
