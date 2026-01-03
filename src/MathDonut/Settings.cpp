@@ -12,9 +12,6 @@ Settings::Settings(int argc, char** argv)
 , m_meshRotationXPerFrame(0.02f)
 , m_meshRotationYPerFrame(0.04f)
 , m_meshRotationZPerFrame(0.0f)
-, m_lightDirectionX(-1.f)
-, m_lightDirectionY(-1.f)
-, m_lightDirectionZ(-1.f)
 , m_frameDuration(0)
 {
     _ParseArguments(argc, argv);
